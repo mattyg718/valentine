@@ -1,81 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>💘 Valentine 💘</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DonJulio</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #fff0f5;
       text-align: center;
       padding-top: 80px;
+      margin: 0;
     }
+
     h1 {
       font-size: 36px;
+      margin: 0 0 18px 0;
     }
+
     img {
       width: 260px;
       border-radius: 12px;
       margin: 20px 0;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
+
+    #buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
     button {
       padding: 15px 30px;
       font-size: 18px;
-      margin: 15px;
       border: none;
       border-radius: 10px;
       cursor: pointer;
     }
+
     #yes {
       background-color: #ff4d6d;
       color: white;
     }
-    #no {
-     background-color: #cccccc;
-  position: relative;
-    }
-    #buttons {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 20px;
-}
 
+    #no {
+      background-color: #cccccc;
+      position: relative; /* start centered */
+    }
+
+    /* Hidden message area that appears after YES */
+    #yesMessage {
+      display: none;
+      margin-top: 35px;
+      padding: 0 20px;
+    }
+
+    #yesMessage h2 {
+      font-size: 30px;
+      margin: 0;
+    }
   </style>
 </head>
+
 <body>
-
   <h1>Will you be my Valentine? 💕</h1>
-  
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOGRvbjNseGt0b3FjNzRtMXNobHg2N3pobXp1dGg4MXg0ZG4wMHBoMSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/8QbwUh40Hl96yMgvOx/giphy.gif" width="260" style="display:block; margin:20px auto;">
 
+  <img
+    src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOGRvbjNseGt0b3FjNzRtMXNobHg2N3pobXp1dGg4MXg0ZG4wMHBoMSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/8QbwUh40Hl96yMgvOx/giphy.gif"
+    alt="valentine gif"
+  />
 
-  <br>
   <div id="buttons">
-  <button id="yes" onclick="yesClicked()">Yes 💖🫦</button>
-  <button id="no">No 🥀</button>
-</div>
+    <button id="yes" onclick="yesClicked()">Yes 💖🫦</button>
+    <button id="no">No 🥀</button>
+  </div>
+
+  <!-- This shows after YES instead of replacing the entire page -->
+  <div id="yesMessage">
+    <h2>
+      Saturday 3:50pm meet me on the corner of w 50th st and 6th ave 👀
+      <br /><br />
+      Get ready for some Ukranian Dihhh 💃🏻🍆🍾💸📈🛩️🕺🏻🪩🤑🫦👅🧠🍑
+    </h2>
+  </div>
+
+  <!-- Audio must be in the DOM BEFORE the click -->
+  <audio id="voiceMessage" preload="auto" playsinline>
+    <source src="./du_down.m4a" type="audio/mp4" />
+  </audio>
 
   <script>
     const noBtn = document.getElementById("no");
 
-   noBtn.addEventListener("mouseover", () => {
-  noBtn.style.position = "fixed"; // 👈 ADD THIS LINE
-  const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-  const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
+    // Start centered; only become "free-floating" when escaping
+    noBtn.addEventListener("mouseover", () => {
+      noBtn.style.position = "fixed";
+      const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+      const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
     });
 
     function yesClicked() {
-      document.getElementById("voiceMessage").play();
-      document.body.innerHTML = "<h1>Saturday 3:50pm meet me on the corner of w 50th st and 6th ave 👀<br><br>Get ready for some Ukranian Dihhh 💃🏻🍆🍾💸📈🛩️🕺🏻🪩🤑🫦👅🧠🍑</h1>";
+      const audio = document.getElementById("voiceMessage");
+
+      // reset + play (iPhone-friendly)
+      audio.currentTime = 0;
+      audio.play().catch(() => {});
+
+      // Show the message without replacing the whole DOM
+      document.getElementById("yesMessage").style.display = "block";
+
+      // Optional: hide the buttons after YES
+      document.getElementById("buttons").style.display = "none";
     }
   </script>
-  
-  <audio id="voiceMessage">
-    <source src="du_down.m4a" type="audio/mp4">
-  </audio>
-
 </body>
 </html>
